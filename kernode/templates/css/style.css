@@ -51,12 +51,17 @@ p {
 .search_form {
     width: 430px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: row;
 }
-
+.input-icon{
+    padding: 12px;
+}
 .search_input {
         width: 83%;
         padding: 12px 42px;
         position: relative;
+        flex: 1;
 
         background-color: transparent;
         transition: transform 250ms ease-in-out;
@@ -65,7 +70,6 @@ p {
         
         color: #fff;
         background-color: transparent;
-        /*background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg);*/
         background-repeat: no-repeat;
         background-size: 18px 18px;
         background-position: 95% center;
@@ -92,7 +96,6 @@ p {
             border-radius: 0;
             background-position: 100% center;
         }
-
 
 
 /*------------------------ 2 Colors ------------------------*/
