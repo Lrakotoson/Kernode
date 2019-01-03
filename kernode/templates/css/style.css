@@ -18,10 +18,11 @@
 
 
 body {
-    width: 430px;
     margin: 0 auto;
     background-color: #232323;
     font-family: 'Raleway', sans-serif;
+    justify-content: center;
+    align-items: center;
 }
 
 p {
@@ -47,8 +48,13 @@ p {
     clear: both;
     }
 
+.search_form {
+    width: 430px;
+    margin: 0 auto;
+}
+
 .search_input {
-        width: 100%;
+        width: 83%;
         padding: 12px 42px;
         position: relative;
 
