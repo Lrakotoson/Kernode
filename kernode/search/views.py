@@ -7,3 +7,7 @@ from django.template import loader
 def index(request):
     template = loader.get_template("index.html")
     return HttpResponse(template.render(request=request))
+
+def results(request, search_id):
+    response = "You're looking at the results of question %s."
+    return HttpResponse(response %search_id)
