@@ -16,7 +16,7 @@ class Picture:
         """
         exif = {
             PE.TAGS[cle]:val
-            for cle, val in self.img._getexif().items()
+            for cle, val in getattr(self.img, '_getexif', lambda: None)().items()
             if cle in PE.TAGS
         }
         
