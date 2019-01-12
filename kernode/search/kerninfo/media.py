@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 import datetime as dt
 from PIL import Image as PI, ExifTags as PE
 
@@ -27,22 +27,23 @@ class Picture:
             for cle in exif["GPSInfo"].keys():
                 data = PE.GPSTAGS.get(cle,cle)
                 gpsinfo[data] = exif["GPSInfo"][cle]
-            Ordexif["Informations GPS"] = self._gpsconversion(gpsinfo)
+            Ordexif["GPS Informations"] = self._gpsconversion(gpsinfo)
             del exif["GPSInfo"]
         
         return Ordexif
     
+
     def _gpsconversion(self, gpsDMS):
         gpsDD = {}
         if "GPSLatitude" in gpsDMS:
             gLtd = gpsDMS["GPSLatitude"]
-            gpsDD["Latitude"] = gLtd[0][0]/gLtd[0][1]+gLtd[1][0]/gLtd[1][0]/60+\
+            gpsDD["Latitude"] = gLtd[0][0]/gLtd[0][1]+gLtd[1][0]/gLtd[1][1]/60+\
                                 gLtd[2][0]/gLtd[2][1]/3600
             if gpsDMS["GPSLatitudeRef"].upper() == "S": gpsDD["Latitude"] *= -1
 
         if "GPSLongitude" in gpsDMS:
             gLgt = gpsDMS["GPSLongitude"]
-            gpsDD["Longitude"] = gLgt[0][0]/gLgt[0][1]+gLgt[1][0]/gLgt[1][0]/60+\
+            gpsDD["Longitude"] = gLgt[0][0]/gLgt[0][1]+gLgt[1][0]/gLgt[1][1]/60+\
                                 gLgt[2][0]/gLgt[2][1]/3600
             if gpsDMS["GPSLongitudeRef"].upper() == "W": gpsDD["Longitude"] *= -1
         
@@ -60,10 +61,10 @@ class Picture:
                                                 int(gTstp[0][0]/gTstp[0][1]),
                                                 int(gTstp[1][0]/gTstp[1][1]),
                                                 int(gTstp[2][0]/gTstp[2][1])),
-                                                "%H:%M:%S")
+                                                "%H:%M:%S").time()
 
         if "GPSDateStamp" in gpsDMS:
-            gpsDD["Date stamp"] = dt.datetime.strptime(gpsDMS["GPSDateStamp"],"%Y:%m:%d")
+            gpsDD["Date stamp"] = dt.datetime.strptime(gpsDMS["GPSDateStamp"],"%Y:%m:%d").date()
         
         if "GPSImgDirection" in gpsDMS:
             gImg = gpsDMS["GPSImgDirection"]
@@ -75,3 +76,4 @@ class Picture:
         
 
         return gpsDD
+
