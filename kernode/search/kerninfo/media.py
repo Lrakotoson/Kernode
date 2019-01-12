@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import datetime as dt
 from PIL import Image as PI, ExifTags as PE
 
 class Picture:
@@ -35,12 +35,14 @@ class Picture:
         gpsDD = {}
         if "GPSLatitude" in gpsDMS:
             gLtd = gpsDMS["GPSLatitude"]
-            gpsDD["Latitude"] = gLtd[0][0]/gLtd[0][1]+gLtd[1][0]/gLtd[1][0]/60+gLtd[2][0]/gLtd[2][1]/3600
+            gpsDD["Latitude"] = gLtd[0][0]/gLtd[0][1]+gLtd[1][0]/gLtd[1][0]/60+\
+                                gLtd[2][0]/gLtd[2][1]/3600
             if gpsDMS["GPSLatitudeRef"].upper() == "S": gpsDD["Latitude"] *= -1
 
         if "GPSLongitude" in gpsDMS:
             gLgt = gpsDMS["GPSLongitude"]
-            gpsDD["Longitude"] = gLgt[0][0]/gLgt[0][1]+gLgt[1][0]/gLgt[1][0]/60+gLgt[2][0]/gLgt[2][1]/3600
+            gpsDD["Longitude"] = gLgt[0][0]/gLgt[0][1]+gLgt[1][0]/gLgt[1][0]/60+\
+                                gLgt[2][0]/gLgt[2][1]/3600
             if gpsDMS["GPSLongitudeRef"].upper() == "W": gpsDD["Longitude"] *= -1
         
         if "GPSAltitude" in gpsDMS:
@@ -51,12 +53,21 @@ class Picture:
                 level = "below"
             gpsDD["Altitude"] = "{} meters {} sea level".format(gAlt[0]/gAlt[1],level)
 
+        if "GPSTimeStamp" in gpsDMS:
+            gTstp = gpsDMS["GPSTimeStamp"]
+            gpsDD["Timestamp"] = dt.datetime.strptime("{}:{}:{}".format(
+                                                int(gTstp[0][0]/gTstp[0][1]),
+                                                int(gTstp[1][0]/gTstp[1][1]),
+                                                int(gTstp[2][0]/gTstp[2][1])),
+                                                "%H:%M:%S")
 
 
 
         
         
-        
+
+#GPSImgDirectionRef  <class 'str'> : T  <class 'str'>
+#GPSImgDirection  <class 'str'> : (12222, 619)  <class 'tuple'>      
 
 
         return gpsDD
