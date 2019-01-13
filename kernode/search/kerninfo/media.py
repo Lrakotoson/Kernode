@@ -15,7 +15,7 @@ class Picture:
         3 - extract photograph info from exif
         return: ordered Picture exif 
         """
-        Ordexif = {}
+        Ordexif = dict()
         exif = {
             PE.TAGS[cle]: val
             for cle, val in getattr(self.img, '_getexif', lambda: None)().items()
@@ -23,17 +23,20 @@ class Picture:
         }
 
         if "GPSInfo" in exif:
-            gpsinfo = {}
+            gpsinfo = dict()
             for cle in exif["GPSInfo"].keys():
                 data = PE.GPSTAGS.get(cle, cle)
                 gpsinfo[data] = exif["GPSInfo"][cle]
             Ordexif["GPS Informations"] = self._gpsconversion(gpsinfo)
             del exif["GPSInfo"]
+        
+        
 
         return Ordexif
 
     def _gpsconversion(self, gpsDMS):
         """
+        Convert and sort gps informations
         gpsDMS: Dict of gpsinfo exif
         return: list of tuples (info, value)
         """
@@ -93,3 +96,9 @@ class Picture:
             gpsDD.append(("Image Direction", imgdir))
 
         return gpsDD
+
+
+    def _generalinfo(self, brutexif):
+        netexif = list()
+        generalist = ["ExifVersion","Make", "Model"]
+        pass
